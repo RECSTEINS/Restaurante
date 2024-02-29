@@ -17,12 +17,12 @@ app.route("/movimientos").get(getMovimientos);
 
 // Crear y actualizar movimientos
 const postMovimientos = (request, response) => {
-    const { id, descripcion, monto, tipo, action } = request.body;
+    const { id, tipo, fecha, hora, monto, idProducto, usuarioReserva, action } = request.body;
 
     if (action === "insert") {
         connection.query(
-            "INSERT INTO movimientos (IdMovimiento, Descripcion, Monto, Tipo) VALUES (?, ?, ?, ?)",
-            [id, descripcion, monto, tipo],
+            "INSERT INTO movimientos (IDMov, TipoMov, FecMov, HoraMov, Cantidad, IdProducto, UsuarioRes) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [id, tipo, fecha, hora, monto, idProducto, usuarioReserva],
             (error, results) => {
                 if (error)
                     throw error;
@@ -31,8 +31,8 @@ const postMovimientos = (request, response) => {
         );
     } else if (action === "update") {
         connection.query(
-            "UPDATE movimientos SET Descripcion = ?, Monto = ?, Tipo = ? WHERE IdMovimiento = ?",
-            [descripcion, monto, tipo, id],
+            "UPDATE movimientos SET IDMov = ?, TipoMov = ?, FecMov = ?, HoraMov = ?, Cantidad = ?, IdProducto = ?, UsuarioRes = ? WHERE IdMovimiento = ?",
+            [id, tipo, fecha, hora, monto, idProducto, usuarioReserva, id],
             (error, results) => {
                 if (error)
                     throw error;
@@ -48,7 +48,7 @@ app.route("/movimientos").post(postMovimientos);
 //Delete
 const delMovimientos = (request, response)=>{
     const id =request.params.id;
-    connection.query("DELETE FROM movimientos WHERE IDMovimiento = ?",[id],
+    connection.query("DELETE FROM movimientos WHERE IDMov = ?",[id],
     (error, results)=>{
         if(error)
             throw error;

@@ -16,12 +16,12 @@ app.route("/cuentas").get(getCuentas);
 
 //Create, Update
 const postCuentas = (request, response) => {
-    const { IdCheck, IdReserva, Subtotal, IVA, Tip, Total, FechaEmision, HoraEmision, Estado, action } = request.body;
+    const { id, idReserva, subtotal, iva, tip, total, fechaEmision, horaEmision, estado, action } = request.body;
 
     if (action === "insert") {
         connection.query(
             "INSERT INTO cuentas (IdCheck, IdReserva, Subtotal, IVA, Tip, Total, FechaEmision, HoraEmision, Estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [IdCheck, IdReserva, Subtotal, IVA, Tip, Total, FechaEmision, HoraEmision, Estado],
+            [id, idReserva, subtotal, iva, tip, total, fechaEmision, horaEmision, estado],
             (error, results) => {
                 if (error)
                     throw error;
@@ -31,7 +31,7 @@ const postCuentas = (request, response) => {
     } else if (action === "update") {
         connection.query(
             "UPDATE cuentas SET IdCheck = ?, IdReserva = ?, Subtotal = ?, IVA = ?, Tip = ?, Total = ?, FechaEmision = ?, HoraEmision = ?, Estado = ? WHERE IdCheck = ?",
-            [IdCheck, IdReserva, Subtotal, IVA, Tip, Total, FechaEmision, HoraEmision, Estado, IdCheck],
+            [id, idReserva, subtotal, iva, tip, total, fechaEmision, horaEmision, estado, id],
             (error, results) => {
                 if (error)
                     throw error;

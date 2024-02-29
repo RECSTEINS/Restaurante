@@ -11,6 +11,8 @@ app.use(require('./routes/productos'));
 app.use(require('./routes/movimientos'));
 app.use(require('./routes/cuentas'));
 app.use(require('./routes/reservaciones'));
+app.use(require('./routes/platillos'));
+app.use(require('./routes/menus'));
 
 const PORT = process.env.PORT;
 
