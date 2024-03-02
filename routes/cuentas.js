@@ -16,12 +16,11 @@ app.route("/cuentas").get(getCuentas);
 
 //Create, Update
 const postCuentas = (request, response) => {
-    const { id, idReserva, subtotal, iva, tip, total, fechaEmision, horaEmision, estado, action } = request.body;
-
+    const { id, idReserva, subtotal, iva, tip, total, fecha, estado, action } = request.body;
     if (action === "insert") {
         connection.query(
-            "INSERT INTO cuentas (IdCheck, IdReserva, Subtotal, IVA, Tip, Total, FechaEmision, HoraEmision, Estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [id, idReserva, subtotal, iva, tip, total, fechaEmision, horaEmision, estado],
+            "INSERT INTO cuentas (Cuentas_ReservaId, Cuentas_SubTotal, Cuentas_IVA, Cuentas_Tip, Cuentas_Total, Cuentas_Fecha, Cuentas_Estado) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [idReserva, subtotal, iva, tip, total, fecha, estado],
             (error, results) => {
                 if (error)
                     throw error;
@@ -30,8 +29,8 @@ const postCuentas = (request, response) => {
         );
     } else if (action === "update") {
         connection.query(
-            "UPDATE cuentas SET IdCheck = ?, IdReserva = ?, Subtotal = ?, IVA = ?, Tip = ?, Total = ?, FechaEmision = ?, HoraEmision = ?, Estado = ? WHERE IdCheck = ?",
-            [id, idReserva, subtotal, iva, tip, total, fechaEmision, horaEmision, estado, id],
+            "UPDATE cuentas SET Cuentas_ReservaId = ?, Cuentas_SubTotal = ?, Cuentas_IVA = ?, Cuentas_Tip = ?, Cuentas_Total = ?, Cuentas_Fecha = ?, Cuentas_Estado = ? WHERE Cuentas_Id = ?",
+            [idReserva, subtotal, iva, tip, total, fecha, estado, id],
             (error, results) => {
                 if (error)
                     throw error;
@@ -44,8 +43,8 @@ app.route("/cuentas").post(postCuentas);
 
 //Delete
 const delCuentas = (request, response)=>{
-    const IdCheck = request.params.IdCheck;
-    connection.query("DELETE FROM cuentas WHERE IdCheck = ?",[IdCheck],
+    const id = request.params.IdCheck;
+    connection.query("DELETE FROM cuentas WHERE Cuentas_Id = ?",[id],
     (error, results)=>{
         if(error)
             throw error;

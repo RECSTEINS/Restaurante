@@ -15,15 +15,14 @@ const getReservaciones= (request, response) => {
 };
 app.route("/reservaciones").get(getReservaciones);
 
-//Nota: Revisar update
 //Create, Update
 const postReservaciones = (request, response) => {
-    const { id, nombre, fecha, hr, nump, nummesa, observaciones, action } = request.body;
+    const { id, nombre, fecha, numper, nummesa, observaciones, action } = request.body;
 
     if (action === "insert") {
         connection.query(
-            "INSERT INTO reservaciones (IdReserva, NomCliente, FecResrv, HoraResrv, NumPersonas, No_Mesa, Observaciones) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [id, nombre, fecha, hr, nump, nummesa, observaciones],
+            "INSERT INTO reservaciones (Reservaciones_Nombre, Reservaciones_Fecha, Reservaciones_NumPersonas, Reservaciones_NoMesa, Reservaciones_Observaciones) VALUES (?, ?, ?, ?, ?)",
+            [nombre, fecha, numper, nummesa, observaciones],
             (error, results) => {
                 if (error)
                     throw error;
@@ -32,8 +31,8 @@ const postReservaciones = (request, response) => {
         );
     }else if (action === "update") {
         connection.query(
-            "UPDATE reservaciones SET IdReserva = ?, NomCliente = ?, FecResrv= ?, HoraResrv= ?, NumPersonas= ?, No_Mesa= ?, Observaciones= ?  WHERE IdReserva = ?",
-            [id, nombre, fecha, hr, nump, nummesa, observaciones, id],
+            "UPDATE reservaciones SET Reservaciones_Nombre = ?, Reservaciones_Fecha = ?, Reservaciones_NumPersonas = ?, Reservaciones_NoMesa = ?, Reservaciones_Observaciones  WHERE Reservaciones_Id = ?",
+            [nombre, fecha, numper, nummesa, observaciones, id],
             (error, results) => {
                 if (error)
                     throw error;
@@ -47,7 +46,7 @@ app.route("/reservaciones").post(postReservaciones);
 //Delete
 const delReservaciones = (request, response)=>{
     const id =request.params.id;
-    connection.query("DELETE FROM reservaciones WHERE IdReserva = ?",[id],
+    connection.query("DELETE FROM reservaciones WHERE Reservaciones_Id = ?",[id],
     (error, results)=>{
         if(error)
             throw error;

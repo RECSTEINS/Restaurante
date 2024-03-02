@@ -17,12 +17,11 @@ app.route("/movimientos").get(getMovimientos);
 
 // Crear y actualizar movimientos
 const postMovimientos = (request, response) => {
-    const { id, tipo, fecha, hora, monto, idProducto, usuarioReserva, action } = request.body;
-
+    const { id, tipo, fecha, monto, usuarioReserva, idProducto, action } = request.body;
     if (action === "insert") {
         connection.query(
-            "INSERT INTO movimientos (IDMov, TipoMov, FecMov, HoraMov, Cantidad, IdProducto, UsuarioRes) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [id, tipo, fecha, hora, monto, idProducto, usuarioReserva],
+            "INSERT INTO movimientos (Movimientos_Tipo, Movimientos_Fecha, Movimientos_Cantidad, Movimientos_ReservaUsu, Movimientos_ProductoId) VALUES (?, ?, ?, ?, ?)",
+            [tipo, fecha, monto, usuarioReserva, idProducto],
             (error, results) => {
                 if (error)
                     throw error;
@@ -31,8 +30,8 @@ const postMovimientos = (request, response) => {
         );
     } else if (action === "update") {
         connection.query(
-            "UPDATE movimientos SET IDMov = ?, TipoMov = ?, FecMov = ?, HoraMov = ?, Cantidad = ?, IdProducto = ?, UsuarioRes = ? WHERE IdMovimiento = ?",
-            [id, tipo, fecha, hora, monto, idProducto, usuarioReserva, id],
+            "UPDATE movimientos SET Movimientos_Tipo = ?, Movimientos_Fecha = ?, Movimientos_Cantidad = ?, Movimientos_ReservaUsu = ?, Movimientos_ProductoId = ? WHERE Movimientos_Id = ?",
+            [tipo, fecha, monto, usuarioReserva, idProducto, id],
             (error, results) => {
                 if (error)
                     throw error;
@@ -48,11 +47,11 @@ app.route("/movimientos").post(postMovimientos);
 //Delete
 const delMovimientos = (request, response)=>{
     const id =request.params.id;
-    connection.query("DELETE FROM movimientos WHERE IDMov = ?",[id],
+    connection.query("DELETE FROM movimientos WHERE Movimientos_Id = ?",[id],
     (error, results)=>{
         if(error)
             throw error;
-        response.status(201).json({"Item eliminado":results.affectedRows});
+        response.status(201).json({"Movimiento eliminado":results.affectedRows});
     });
 };
 app.route("/movimientos/:id").delete(delMovimientos);

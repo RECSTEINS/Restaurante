@@ -18,11 +18,10 @@ app.route("/platillos").get(getPlatillos);
 //Create, Update
 const postPlatillos = (request, response) => {
     const { id, nombre, tipo, descripcion, precio, action } = request.body;
-
     if (action === "insert") {
         connection.query(
-            "INSERT INTO platillos (IdPlato, NomPlato, Tipoplato, Descplato, PrecioPlat) VALUES (?, ?, ?, ?, ?)",
-            [id, nombre, tipo, descripcion, precio],
+            "INSERT INTO platillos (Platillos_Nombre, Platillos_Tipo, Platillos_Descripcion, Platillos_Precio) VALUES (?, ?, ?, ?)",
+            [nombre, tipo, descripcion, precio],
             (error, results) => {
                 if (error)
                     throw error;
@@ -31,8 +30,8 @@ const postPlatillos = (request, response) => {
         );
     }else if (action === "update") {
         connection.query(
-            "UPDATE platillos SET IdPlato = ?, NomPlato = ?, Tipoplato = ?, Descplato = ?, PreoPlat = ?  WHERE IdPlato = ?",
-            [id, nombre, tipo, descripcion, precio, id],
+            "UPDATE platillos SET Platillos_Nombre = ?, Platillos_Tipo = ?, Platillos_Descripcion = ?, Platillos_Precio = ?  WHERE Platillos_Id = ?",
+            [nombre, tipo, descripcion, precio, id],
             (error, results) => {
                 if (error)
                     throw error;
@@ -46,7 +45,7 @@ app.route("/platillos").post(postPlatillos);
 //Delete
 const delPlatillos = (request, response)=>{
     const id =request.params.id;
-    connection.query("DELETE FROM platillos WHERE IdPlato = ?",[id],
+    connection.query("DELETE FROM platillos WHERE Platillos_Id = ?",[id],
     (error, results)=>{
         if(error)
             throw error;

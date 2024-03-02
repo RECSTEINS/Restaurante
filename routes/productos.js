@@ -20,22 +20,22 @@ const postProducto = (request, response) => {
     const { id, nombre, descripcion, tipo, precio, idProveedor, action } = request.body;
     if (action === "insert") {
         connection.query(
-            "INSERT INTO productos (IDProducto, Nombre, Descripcion, TipoProducto, Precio, IdProveedor) VALUES (?, ?, ?, ?, ?, ?)",
-            [id, nombre, descripcion, tipo, precio, idProveedor],
+            "INSERT INTO productos (Productos_Nombre, Productos_Descripcion, Productos_Tipo, Productos_Precio, Productos_ProveedorID) VALUES (?, ?, ?, ?, ?)",
+            [nombre, descripcion, tipo, precio, idProveedor],
             (error, results) => {
                 if (error)
                     throw error;
-                response.status(201).json({ "Item añadido correctamente": results.affectedRows });
+                response.status(201).json({ "Producto añadido correctamente": results.affectedRows });
             }
         );
     }else if (action === "update") {
         connection.query(
-            "UPDATE productos SET IDProducto = ?, Nombre = ?, Descripcion = ?, TipoProducto = ?, Precio = ?, IdProveedor = ? WHERE IDProducto = ?",
-            [id, nombre, descripcion, tipo, precio, idProveedor, id],
+            "UPDATE productos SET Productos_Nombre = ?, Productos_Descripcion = ?, Productos_Tipo = ?, Productos_Precio = ?, Productos_ProveedorID = ? WHERE Productos_Id = ?",
+            [nombre, descripcion, tipo, precio, idProveedor, id],
             (error, results) => {
                 if (error)
                     throw error;
-                response.status(201).json({ "Item actualizado correctamente": results.affectedRows });
+                response.status(201).json({ "Producto actualizado correctamente": results.affectedRows });
             }
         );
     }
@@ -45,11 +45,11 @@ app.route("/producto").post(postProducto);
 //Delete
 const delProductos = (request, response)=>{
     const id =request.params.id;
-    connection.query("DELETE FROM productos WHERE IDProducto = ?",[id],
+    connection.query("DELETE FROM productos WHERE Productos_Id = ?",[id],
     (error, results)=>{
         if(error)
             throw error;
-        response.status(201).json({"Item eliminado":results.affectedRows});
+        response.status(201).json({"Producto eliminado":results.affectedRows});
     });
 };
 app.route("/productos/:id").delete(delProductos);

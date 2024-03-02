@@ -15,29 +15,28 @@ const getProveedores= (request, response) => {
 };
 app.route("/proveedores").get(getProveedores);
 
-//Nota: *Revisar update*
 //Create, Update
 const postProveedores = (request, response) => {
     const { id, nombre, activo, action } = request.body;
 
     if (action === "insert") {
         connection.query(
-            "INSERT INTO proveedores (IdProveedor, NomProv, Activo) VALUES (?, ?, ?)",
-            [id, nombre, activo],
+            "INSERT INTO proveedores (Proveedor_Nombre, Proveedor_Activo) VALUES (?, ?)",
+            [nombre, activo],
             (error, results) => {
                 if (error)
                     throw error;
-                response.status(201).json({ "Item añadido correctamente": results.affectedRows });
+                response.status(201).json({ "Proveedor añadido correctamente": results.affectedRows });
             }
         );
     }else if (action === "update") {
         connection.query(
-            "UPDATE proveedores SET IdProveedor = ?, NomProv = ?, Activo = ?  WHERE IdProveedor = ?",
-            [id, nombre, activo, id],
+            "UPDATE proveedores SET Proveedor_Nombre = ?, Proveedor_Activo = ?  WHERE Proveedor_Id = ?",
+            [nombre, activo, id],
             (error, results) => {
                 if (error)
                     throw error;
-                response.status(201).json({ "Item actualizado correctamente": results.affectedRows });
+                response.status(201).json({"Proveedor actualizado correctamente": results.affectedRows });
             }
         );
     }
@@ -47,11 +46,11 @@ app.route("/proveedores").post(postProveedores);
 //Delete
 const delProveedores = (request, response)=>{
     const id =request.params.id;
-    connection.query("DELETE FROM proveedores WHERE IdProveedor = ?",[id],
+    connection.query("DELETE FROM proveedores WHERE Proveedor_Id = ?",[id],
     (error, results)=>{
         if(error)
             throw error;
-        response.status(201).json({"Item eliminado":results.affectedRows});
+        response.status(201).json({"Proveedor eliminado":results.affectedRows});
     });
 };
 app.route("/proveedores/:id").delete(delProveedores);
