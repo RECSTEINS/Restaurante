@@ -7,7 +7,7 @@ const {connection}= require ("../config/config.db");
 
 //Read
 const getProductos= (request, response) => {
-    connection.query("SELECT * FROM productos",(error,results)=>{
+    connection.query("SELECT pr.Productos_Id, pr.Productos_Nombre, pr.Productos_Descripcion, pr.Productos_Tipo, pr.Productos_Precio, p.Proveedor_Id, p.Proveedor_Nombre, p.Proveedor_Activo FROM productos pr LEFT JOIN proveedores p ON pr.Productos_ProveedorID = p.Proveedor_Id;",(error,results)=>{
         if(error)
         throw error;
     response.status(200).json(results);
